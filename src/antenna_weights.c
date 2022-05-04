@@ -4,15 +4,18 @@
  * `antenna_names` specifies which `antenna_weights` to gather, as well as the
  * order in which to do so.
  */
-void read_antenna_weights(
+int read_antenna_weights(
     char* filepath,
     uint32_t nants, // number of antenna of interest
     char** antenna_names, // the antenna of interest
     uint32_t starting_channel, // the first channel
     uint32_t number_of_channels, // the number of channels
-    double** antenna_weights // return value.
+    double _Complex** antenna_weights // return value.
 ) {
     FILE* fio = fopen(filepath,"rb");
+    if(fio == NULL){
+        return 1;
+    }
     
     uint32_t file_nants, file_nchan, file_npol;
     int* antenna_enumerations = malloc(nants*sizeof(int));
@@ -26,31 +29,32 @@ void read_antenna_weights(
         &file_npol,
         antenna_enumerations
     );
-    long antenna_weights_double_count = 2*file_npol*number_of_channels;
+    long antenna_weights_double_count = file_npol*number_of_channels;
 
     long antenna_weights_start_position = ftell(fio);
-    *antenna_weights = malloc(sizeof(double)*nants*antenna_weights_double_count);
+    *antenna_weights = malloc(sizeof(double _Complex)*nants*antenna_weights_double_count);
 
     for (int i = 0; i < nants; i++) {
         fseek(
             fio,
-            antenna_weights_start_position + antenna_enumerations[i]*file_nchan*file_npol*sizeof(double)*2,
+            antenna_weights_start_position + antenna_enumerations[i]*file_nchan*file_npol*sizeof(double _Complex),
             SEEK_SET
         );
         fseek(
             fio,
-            starting_channel*file_npol*sizeof(double)*2,
+            starting_channel*file_npol*sizeof(double _Complex),
             SEEK_CUR
         );
         fread(
             *antenna_weights + i*antenna_weights_double_count,
-            sizeof(double),
+            sizeof(double _Complex),
             antenna_weights_double_count,
             fio
         );
     }
     free(antenna_enumerations);
     fclose(fio);
+    return 0;
 }
 
 void _read_antenna_weights_file_header(

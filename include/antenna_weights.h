@@ -1,20 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <string.h>
+#include <complex.h>
 
 #define ANTENNA_NAME_LENGTH 2
 
 /*
  * `antenna_names` specifies which `antenna_weights` to gather, as well as the
- * order in which to do so.
+ * order in which to do so. Returns 0 on success.
  */
-void read_antenna_weights(
+int read_antenna_weights(
     char* filepath,
     uint32_t nants, // number of antenna of interest
     char** antenna_names, // the antenna of interest
     uint32_t starting_channel, // the first channel
     uint32_t number_of_channels, // the number of channels
-    double** antenna_weights // return value.
+    double _Complex** antenna_weights // return value.
 );
 
 void _read_antenna_weights_file_header(

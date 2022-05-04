@@ -28,7 +28,7 @@ int main(){
         "4g"
     };
     
-    double* antenna_weights = NULL;
+    double _Complex* antenna_weights = NULL;
     read_antenna_weights(
         "../ant_weights.bin",
         nants, // number of antenna of interest
@@ -43,10 +43,10 @@ int main(){
             "#%d %s: C0P0 %f+%fj\t C0P1 %f+%fj\n",
             i,
             antenna_names[i],
-            antenna_weights[i*4+0],
-            antenna_weights[i*4+1],
-            antenna_weights[i*4+2],
-            antenna_weights[i*4+3]
+            creal(antenna_weights[i*2+0]),
+            cimag(antenna_weights[i*2+0]),
+            creal(antenna_weights[i*2+1]),
+            cimag(antenna_weights[i*2+1])
         );
     }
     free(antenna_weights);
