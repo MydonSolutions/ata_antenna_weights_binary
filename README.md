@@ -2,7 +2,7 @@
 
 A rather rushed solution for the binary storage of complex Antenna-Weights for use at the ATA.
 
-The binary file contents is as follows:
+The binary file content is as follows:
 
 Byte Offset | Vector Length | Element C Data Type	| Description
 -|-|-|-
