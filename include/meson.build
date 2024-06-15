@@ -1,3 +1,1 @@
-src_lst += files([
-	'antenna_weights.h',
-])
+install_headers('antenna_weights.h', install_dir : get_option('includedir'))

@@ -1,5 +1,5 @@
-project('temp', 'c',
-  version: '0.0',
+project('ata_antenna_weights_binary', 'c',
+  version: '0.1',
 )
 
 cc = meson.get_compiler('c')
@@ -14,18 +14,18 @@ dep_lst = []
 subdir('include')
 subdir('src')
 
-lib_temp = library(
-  'temp',
+lib_ata_antenna_weights_binary = library(
+  'ata_antenna_weights_binary',
   src_lst,
   include_directories: inc_lst,
   dependencies: dep_lst,
   install: true,
 )
 
-lib_temp_dep = declare_dependency(
+lib_ata_antenna_weights_binary_dep = declare_dependency(
   include_directories: inc_lst,
   dependencies: dep_lst,
-  link_with: lib_temp,
+  link_with: lib_ata_antenna_weights_binary,
 )
 
 subdir('tests')
